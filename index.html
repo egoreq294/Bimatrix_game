@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bimatrix Game</title>
+</head>
+<body>
+    <label>
+        <input type="button" id="test" value="Вычислить">
+    </label>    
+    <div id="result"></div>
+    <!-- Библиотека для математики -->
+	<script src="math.min.js"></script>
+	<!-- Библиотека для математики -->
+	<script src="algebrite.bundle-for-browser.js"></script>
+	<!-- Библиотека для рисования графиков -->
+	<script src="plotly.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+		window.onload = () =>  {
+            document.querySelector('#test').onmouseup = l;
+        }
+    </script>
+</body>
+</html>
