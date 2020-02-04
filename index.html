@@ -9,7 +9,19 @@
 <body>
     <label>
         <input type="button" id="test" value="Вычислить">
-    </label>    
+    </label>
+    <select id = "M">
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
+    <select id = "N">
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
     <div id="result"></div>
     <!-- Библиотека для математики -->
 	<script src="math.min.js"></script>
@@ -21,6 +33,8 @@
     <script>
 		window.onload = () =>  {
             document.querySelector('#test').onmouseup = l;
+            document.querySelector('#N').onmouseup = Create;
+            document.querySelector('#M').onmouseup = Create;
         }
     </script>
 </body>
