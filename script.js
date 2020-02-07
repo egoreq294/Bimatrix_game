@@ -188,7 +188,7 @@ let Solve_Bimatrix_Game = () => {
         document.querySelector('#result').innerHTML += 'q = ( ';
 	    for(let j = 0; j < Solution_Bimatix_Game_B[i].length-2; j++)
 	    {
-	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
+	    	document.querySelector('#result').innerHTML += ((+q[j]).toFixed(2) + ', ');
 	    }
         document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + ' ) ';
         document.querySelector('#result').innerHTML +='<br>';
