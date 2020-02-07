@@ -16,6 +16,8 @@ let Solve_Bimatrix_Game = () => {
     let SubMatrixesB=[];
     let SLAU_Solution_A = [];
     let SLAU_Solution_B = [];
+    let Solution_Bimatix_Game_A = [];
+    let Solution_Bimatix_Game_B = [];
     // Сам алгоритм 2*2
     for (let i = 0; i < M - 1; i++) // строки
     {
@@ -125,6 +127,7 @@ let Solve_Bimatrix_Game = () => {
         vector1[SubMatrixesA[k].length] = 1;
         //Составляем и решаем СЛАУ с матрией B
         //Преобразовывсаем матрицу
+        SubMatrixesB[k] = math.transpose(SubMatrixesB[k]);
         const LastSubMatrixB = []
         for(let i = 0; i < SubMatrixesB[k].length + 1; i++){
             LastSubMatrixB [i] = [];
@@ -148,16 +151,52 @@ let Solve_Bimatrix_Game = () => {
         }
         vector2[SubMatrixesB[k].length] = 1;        
         //Решаем СЛАУ
-        if(math.det(LastSubMatrixA)!=0 && math.det(LastSubMatrixB)!=0){
-            console.log(math.det(LastSubMatrixA));
-            console.log(math.det(LastSubMatrixB));
-        SLAU_Solution_A.push(Array.from(math.lusolve(LastSubMatrixA,vector1)));//где то тут ошибка
-        SLAU_Solution_B.push(Array.from(math.lusolve(LastSubMatrixB,vector2)));
+        if( +(math.det(LastSubMatrixA)).toFixed(2)!= 0 && +(math.det(LastSubMatrixB)).toFixed(2)!= 0){
+            SLAU_Solution_A.push(Array.from(math.lusolve(LastSubMatrixA,vector1)));
+            SLAU_Solution_B.push(Array.from(math.lusolve(LastSubMatrixB,vector2)));
         }
     }
-    console.log( SLAU_Solution_A);
-    console.log( SLAU_Solution_B);
-
+    //Проверка на неотрицальность
+    for( let i = 0; i < SLAU_Solution_A.length; i++){
+        let positiveA = true;
+        let positiveB = true;
+        for(let j = 0; j < SLAU_Solution_A[i].length; j++){                
+            if(SLAU_Solution_A[i][j] < 0){positiveA = false;}
+            if(SLAU_Solution_B[i][j] < 0){positiveB = false;}
+        }
+        if(positiveA == true && positiveB == true){
+            Solution_Bimatix_Game_A.push(SLAU_Solution_A[i]);
+            Solution_Bimatix_Game_B.push(SLAU_Solution_B[i]);
+        }
+    }
+    console.log(SLAU_Solution_A);
+    console.log(Solution_Bimatix_Game_A);
+    console.log(SLAU_Solution_B);
+    console.log(Solution_Bimatix_Game_B);
+    document.querySelector('#result').innerHTML = '';
+    for(let i = 0; i < Solution_Bimatix_Game_A.length; i++){
+        //Вывод p
+        let p = Array.from(Solution_Bimatix_Game_A[i]);
+        document.querySelector('#result').innerHTML += 'p = ( ';
+	    for(let j = 0; j < Solution_Bimatix_Game_A[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += Number(p[p.length-1]).toFixed(2) + ' ), ';        
+        //Вывод q
+        let q = Array.from(Solution_Bimatix_Game_B[i])
+        document.querySelector('#result').innerHTML += 'q = ( ';
+	    for(let j = 0; j < Solution_Bimatix_Game_B[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += Number(q[q.length-1]).toFixed(2) + ' ) ';
+        document.querySelector('#result').innerHTML +='<br>';
+    }
+    if(document.querySelector('#result').innerHTML == ''){
+        document.querySelector('#result').innerHTML = 'Решений нет'
+    }
+    
 }
 let Create_Matrix = () => {
     let M = +document.querySelector('#M').value;
@@ -176,5 +215,5 @@ let Create_Matrix = () => {
         }
         document.querySelector('#matrix2').innerHTML +='<br>';
     }
-    
+    document.querySelector('#result').innerHTML = '';
 }
