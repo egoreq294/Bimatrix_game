@@ -156,11 +156,11 @@ let Solve_Bimatrix_Game = () => {
             SLAU_Solution_B.push(Array.from(math.lusolve(LastSubMatrixB,vector2)));
         }
     }
-    //Проверка на неотрицальность
+    //Проверка на неотрицальность p и q, при этом на v1,v2 внимания не обращаем
     for( let i = 0; i < SLAU_Solution_A.length; i++){
         let positiveA = true;
         let positiveB = true;
-        for(let j = 0; j < SLAU_Solution_A[i].length; j++){                
+        for(let j = 0; j < SLAU_Solution_A[i].length - 1; j++){                
             if(SLAU_Solution_A[i][j] < 0){positiveA = false;}
             if(SLAU_Solution_B[i][j] < 0){positiveB = false;}
         }
@@ -178,19 +178,19 @@ let Solve_Bimatrix_Game = () => {
         //Вывод p
         let p = Array.from(Solution_Bimatix_Game_A[i]);
         document.querySelector('#result').innerHTML += 'p = ( ';
-	    for(let j = 0; j < Solution_Bimatix_Game_A[i].length-1; j++)
+	    for(let j = 0; j < Solution_Bimatix_Game_A[i].length-2; j++)
 	    {
 	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
 	    }
-        document.querySelector('#result').innerHTML += Number(p[p.length-1]).toFixed(2) + ' ), ';        
+        document.querySelector('#result').innerHTML += Number(p[p.length-2]).toFixed(2) + ' ), ';        
         //Вывод q
         let q = Array.from(Solution_Bimatix_Game_B[i])
         document.querySelector('#result').innerHTML += 'q = ( ';
-	    for(let j = 0; j < Solution_Bimatix_Game_B[i].length-1; j++)
+	    for(let j = 0; j < Solution_Bimatix_Game_B[i].length-2; j++)
 	    {
 	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
 	    }
-        document.querySelector('#result').innerHTML += Number(q[q.length-1]).toFixed(2) + ' ) ';
+        document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + ' ) ';
         document.querySelector('#result').innerHTML +='<br>';
     }
     if(document.querySelector('#result').innerHTML == ''){
