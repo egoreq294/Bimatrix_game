@@ -18,6 +18,13 @@ let Solve_Bimatrix_Game = () => {
     let SLAU_Solution_B = [];
     let Solution_Bimatix_Game_A = [];
     let Solution_Bimatix_Game_B = [];
+    //алгоритм поиска в чистых стратегиях
+    /*for(let i = 0; i < N; i++){
+        for(let j = 0; j < M; j++){
+
+        }
+    }*/
+    //алгоритм поиска в смешанных стратегиях
     // Сам алгоритм 2*2
     for (let i = 0; i < M - 1; i++) // строки
     {
@@ -177,24 +184,24 @@ let Solve_Bimatrix_Game = () => {
     for(let i = 0; i < Solution_Bimatix_Game_A.length; i++){
         //Вывод p
         let p = Array.from(Solution_Bimatix_Game_A[i]);
-        document.querySelector('#result').innerHTML += 'p = ( ';
+        document.querySelector('#result').innerHTML += 'p = (';
 	    for(let j = 0; j < Solution_Bimatix_Game_A[i].length-2; j++)
 	    {
 	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
 	    }
-        document.querySelector('#result').innerHTML += Number(p[p.length-2]).toFixed(2) + ' ), ';        
+        document.querySelector('#result').innerHTML += Number(p[p.length-2]).toFixed(2) + '), ';        
         //Вывод q
         let q = Array.from(Solution_Bimatix_Game_B[i])
-        document.querySelector('#result').innerHTML += 'q = ( ';
+        document.querySelector('#result').innerHTML += 'q = (';
 	    for(let j = 0; j < Solution_Bimatix_Game_B[i].length-2; j++)
 	    {
 	    	document.querySelector('#result').innerHTML += ((+q[j]).toFixed(2) + ', ');
 	    }
-        document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + ' ) ';
+        document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + ') ';
         document.querySelector('#result').innerHTML +='<br>';
     }
     if(document.querySelector('#result').innerHTML == ''){
-        document.querySelector('#result').innerHTML = 'Решений нет'
+        document.querySelector('#result').innerHTML = 'В этой игре решение необходимо искать в чистых стратегиях'
     }
     
 }
@@ -204,14 +211,14 @@ let Create_Matrix = () => {
     document.querySelector('#matrix1').innerHTML = '';      
     for(let i = 0; i < M; i++){ 
         for(let j = 0; j < N; j++){
-            document.querySelector('#matrix1').innerHTML +=`<input id=a1_${i}${j}></input>`;
+            document.querySelector('#matrix1').innerHTML +=`<input class=matrix id=a1_${i}${j}></input>`;
         }
         document.querySelector('#matrix1').innerHTML +='<br>';
     }
     document.querySelector('#matrix2').innerHTML = '';      
     for(let i = 0; i < M; i++){ 
         for(let j = 0; j < N; j++){
-            document.querySelector('#matrix2').innerHTML +=`<input id=a2_${i}${j}></input>`;
+            document.querySelector('#matrix2').innerHTML +=`<input class=matrix id=a2_${i}${j}></input>`;
         }
         document.querySelector('#matrix2').innerHTML +='<br>';
     }

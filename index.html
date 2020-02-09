@@ -5,28 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bimatrix Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>    
-    <label>Выберете размерность матриц A и B:</label>
-    <select id = "M">
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>    
-    <select id = "N">
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
-    <div id="matrix1"></div>
-    <br>
-    <div id="matrix2"></div>
-    <label>
-        <input type="button" id="solve" value="Вычислить">
-    </label>
-    <div id="result"></div>
+<body>
+    <div class="main">
+        <label>Выберете размерность матриц A и B:</label>
+        <select id = "M">
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>    
+        <select id = "N">
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+        <div id="matrix1">
+            <input class = "matrix" id=a1_00></input><input class = "matrix" id=a1_01></input>
+            <br>
+            <input class = "matrix" id=a1_10></input><input class = "matrix" id=a1_11></input>
+        </div>
+        <br>
+        <div id="matrix2">
+            <input class = "matrix" id=a2_00></input><input class = "matrix" id=a2_01></input>
+            <br>
+            <input class = "matrix" id=a2_10></input><input class = "matrix" id=a2_11></input>
+        </div>
+        <br>
+        <label>
+            <input type="button" id="solve" value="Вычислить">
+        </label>
+        <div id="result"></div>
+    </div>
     <!-- Библиотека для математики -->
 	<script src="math.min.js"></script>
 	<!-- Библиотека для математики -->
