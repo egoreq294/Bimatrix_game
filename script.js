@@ -12,19 +12,93 @@ let Solve_Bimatrix_Game = () => {
             B[i][j] = +document.querySelector(`#a2_${i}${j}`).value;
         }
     }
-    let SubMatrixesA=[];
-    let SubMatrixesB=[];
+    let SubMatrixesA = [];
+    let SubMatrixesB = [];
+    let indexSubMatrixesA = [];
+    let indexSubMatrixesB = [];
     let SLAU_Solution_A = [];
     let SLAU_Solution_B = [];
     let Solution_Bimatix_Game_A = [];
     let Solution_Bimatix_Game_B = [];
+    let lastIndexSubMatrixesA = [];
+    let lastIndexSubMatrixesB = [];
+    let predLastIndexSubMatrixesA = [];
+    let predLastIndexSubMatrixesB = [];
     //алгоритм поиска в чистых стратегиях
-    /*for(let i = 0; i < N; i++){
-        for(let j = 0; j < M; j++){
-
+    let A1=[];
+    let B1=[];
+    for(let i = 0; i < M; i++){
+        A1[i]=[];
+        B1[i]=[];
+        for(let j = 0; j < N; j++){
+            A1[i][j] = A[i][j];
+            B1[i][j] = B[i][j];
         }
-    }*/
+    }
+    let matrixB = math.transpose(B1);    
+    let SolutionPureStrategy = [];
+    let SolutionPureStrategy_A = [];
+    let SolutionPureStrategy_B = [];
+    
+        let matrixB1=[];
+        for(let i = 0; i < N; i++){        
+            matrixB1[i]=[]
+            for(let j = 0; j < M; j++){            
+                matrixB1[i][j] = matrixB[i][j];
+            }
+        }
+        for(let i = 0; i < M; i++){
+            let masA = A1[i].sort(function(a, b) {
+               return a - b;
+            });;
+            let maxA = masA[masA.length-1];
+            for(let j = 0; j < N; j++){
+                if(maxA === A[i][j]){
+                    SolutionPureStrategy_A.push([i,j]);
+                }
+            }
+        }
+        for(let i = 0; i < N; i++){
+            let masB = matrixB1[i].sort(function(a, b) {
+                return a - b;
+              });;
+              let maxB = masB[masB.length-1];
+              for(let j = 0; j < M; j++){                
+                if(maxB === matrixB[i][j]){
+                    SolutionPureStrategy_B.push([j,i]);
+                }
+            }
+        }
+    
+    for(let i = 0; i < SolutionPureStrategy_A.length; i++){
+        for(let j = 0; j < SolutionPureStrategy_B.length; j++){
+            if(SolutionPureStrategy_A[i][0]==SolutionPureStrategy_B[j][0] && SolutionPureStrategy_A[i][1]==SolutionPureStrategy_B[j][1]){
+                SolutionPureStrategy.push(SolutionPureStrategy_A[i]);
+            }
+        }
+    }
+    if(SolutionPureStrategy.length != 0){
+        document.querySelector('#result').innerHTML = '';
+        document.querySelector('#result').innerHTML = 'Ситуации равновесия в чистых стратегиях: ';
+        document.querySelector('#result').innerHTML +='<br>';
+    for(let i = 0; i < SolutionPureStrategy.length; i++){        
+        document.querySelector('#result').innerHTML += '(';
+	    for(let j = 0; j < SolutionPureStrategy[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+SolutionPureStrategy[i][j]+1) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += (Number(SolutionPureStrategy[i][SolutionPureStrategy[i].length-1])+1) + ')';
+        document.querySelector('#result').innerHTML +='<br>';
+    }
+    }
+    else{
     //алгоритм поиска в смешанных стратегиях
+    if(N==5 && M==5){
+        SubMatrixesA.push(A);
+        SubMatrixesB.push(B);
+        indexSubMatrixesA.push([[0],[1],[2],[3],[4]]);
+        indexSubMatrixesB.push([[0],[1],[2],[3],[4]]);
+    }    
     // Сам алгоритм 2*2
     for (let i = 0; i < M - 1; i++) // строки
     {
@@ -38,6 +112,8 @@ let Solve_Bimatrix_Game = () => {
                                         [A[j][k1], A[j][k]]]);
                     SubMatrixesB.push([[B[i][k1], B[i][k]],
                                         [B[j][k1], B[j][k]]]);
+                    indexSubMatrixesA.push([[k1],[k]]);
+                    indexSubMatrixesB.push([[i],[j]]);
                                         
                 }
             }
@@ -62,7 +138,9 @@ let Solve_Bimatrix_Game = () => {
                                                     [A[i3][j1], A[i3][j2], A[i3][j3]]]);
                                 SubMatrixesB.push([[B[i1][j1], B[i1][j2], B[i1][j3]],
                                                     [B[i2][j1], B[i2][j2], B[i2][j3]],
-                                                    [B[i3][j1], B[i3][j2], B[i3][j3]]]); 
+                                                    [B[i3][j1], B[i3][j2], B[i3][j3]]]);
+                                indexSubMatrixesA.push([[j1],[j2],[j3]]);
+                                indexSubMatrixesB.push([[i1],[i2],[i3]]);
                             }
                         }
                     }
@@ -71,7 +149,7 @@ let Solve_Bimatrix_Game = () => {
         }
         
     }
-    else if(N >= 4 && M >= 4){
+    if(N >= 4 && M >= 4){
     // Сам алгоритм 4*4
         for (let i1 = 0; i1 < M - 3; i1++) // строки
         {
@@ -92,11 +170,13 @@ let Solve_Bimatrix_Game = () => {
                                         SubMatrixesA.push([[A[i1][j1], A[i1][j2], A[i1][j3], A[i1][j4]],
                                                         [A[i2][j1], A[i2][j2], A[i2][j3], A[i2][j4]],
                                                         [A[i3][j1], A[i3][j2], A[i3][j3], A[i3][j4] ],
-                                                        [A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4]]])
+                                                        [A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4]]]);
                                         SubMatrixesB.push([[B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4]],
                                                         [B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4]],
                                                         [B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4] ],
-                                                        [B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4]]])
+                                                        [B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4]]]);
+                                        indexSubMatrixesA.push([[j1],[j2],[j3],[j4]]);
+                                        indexSubMatrixesB.push([[i1],[i2],[i3],[i4]]);
                                     }
                                 }
                             }
@@ -106,7 +186,6 @@ let Solve_Bimatrix_Game = () => {
             }
         }
     }
-    
     for(let k = 0; k < SubMatrixesA.length; k++){
         //Составляем и решаем СЛАУ с матрией А
         //Преобразовывсаем матрицу
@@ -161,6 +240,8 @@ let Solve_Bimatrix_Game = () => {
         if( +(math.det(LastSubMatrixA)).toFixed(2)!= 0 && +(math.det(LastSubMatrixB)).toFixed(2)!= 0){
             SLAU_Solution_A.push(Array.from(math.lusolve(LastSubMatrixA,vector1)));
             SLAU_Solution_B.push(Array.from(math.lusolve(LastSubMatrixB,vector2)));
+            predLastIndexSubMatrixesA.push(indexSubMatrixesA[k]);
+            predLastIndexSubMatrixesB.push(indexSubMatrixesB[k]);
         }
     }
     //Проверка на неотрицальность p и q, при этом на v1,v2 внимания не обращаем
@@ -174,13 +255,12 @@ let Solve_Bimatrix_Game = () => {
         if(positiveA == true && positiveB == true){
             Solution_Bimatix_Game_A.push(SLAU_Solution_A[i]);
             Solution_Bimatix_Game_B.push(SLAU_Solution_B[i]);
+            lastIndexSubMatrixesA.push(predLastIndexSubMatrixesA[i]);
+            lastIndexSubMatrixesB.push(predLastIndexSubMatrixesB[i]);
         }
     }
-    console.log(SLAU_Solution_A);
-    console.log(Solution_Bimatix_Game_A);
-    console.log(SLAU_Solution_B);
-    console.log(Solution_Bimatix_Game_B);
     document.querySelector('#result').innerHTML = '';
+    document.querySelector('#result').innerHTML = 'Решение биматричной игры в смешанных стратегиях. <br >Далее будут выведены векторы p и q и их индексы, оставшиеся места заполнить нулями <br>';
     for(let i = 0; i < Solution_Bimatix_Game_A.length; i++){
         //Вывод p
         let p = Array.from(Solution_Bimatix_Game_A[i]);
@@ -189,7 +269,14 @@ let Solve_Bimatrix_Game = () => {
 	    {
 	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
 	    }
-        document.querySelector('#result').innerHTML += Number(p[p.length-2]).toFixed(2) + '), ';        
+        document.querySelector('#result').innerHTML += Number(p[p.length-2]).toFixed(2) + '), ';
+        //Вывод индексов
+        document.querySelector('#result').innerHTML += 'i = (';
+	    for(let j = 0; j < lastIndexSubMatrixesA[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+lastIndexSubMatrixesA[i][j]+1) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += (Number(lastIndexSubMatrixesA[i][lastIndexSubMatrixesA[i].length-1])+1) + '), ';      
         //Вывод q
         let q = Array.from(Solution_Bimatix_Game_B[i])
         document.querySelector('#result').innerHTML += 'q = (';
@@ -197,12 +284,17 @@ let Solve_Bimatrix_Game = () => {
 	    {
 	    	document.querySelector('#result').innerHTML += ((+q[j]).toFixed(2) + ', ');
 	    }
-        document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + ') ';
+        document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + '), ';
+        //Вывод индексов
+        document.querySelector('#result').innerHTML += 'j = (';
+	    for(let j = 0; j < lastIndexSubMatrixesB[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+lastIndexSubMatrixesB[i][j]+1) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += (Number(lastIndexSubMatrixesB[i][lastIndexSubMatrixesB[i].length-1])+1) + ')';
         document.querySelector('#result').innerHTML +='<br>';
     }
-    if(document.querySelector('#result').innerHTML == ''){
-        document.querySelector('#result').innerHTML = 'В этой игре решение необходимо искать в чистых стратегиях'
-    }
+}
     
 }
 let Create_Matrix = () => {
