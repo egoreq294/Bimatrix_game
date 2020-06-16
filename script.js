@@ -35,11 +35,48 @@ let Solve_Bimatrix_Game = () => {
             B1[i][j] = B[i][j];
         }
     }
-    let matrixB = math.transpose(B1);    
+    let matrixA = math.transpose(A1);    
     let SolutionPureStrategy = [];
     let SolutionPureStrategy_A = [];
     let SolutionPureStrategy_B = [];
+    let matrixA1=[];
+        for(let i = 0; i < N; i++){        
+            matrixA1[i]=[]
+            for(let j = 0; j < M; j++){            
+                matrixA1[i][j] = matrixA[i][j];
+            }
+        }
+        for(let i = 0; i < M; i++){
+            let masB = B1[i].sort(function(a, b) {
+               return a - b;
+            });;
+            let maxB = masB[masB.length-1];
+            for(let j = 0; j < N; j++){
+                if(maxB === B[i][j]){
+                    SolutionPureStrategy_B.push([i,j]);
+                }
+            }
+        }
+        for(let i = 0; i < N; i++){
+            let masA = matrixA1[i].sort(function(a, b) {
+                return a - b;
+              });;
+              let maxA = masA[masA.length-1];
+              for(let j = 0; j < M; j++){                
+                if(maxA === matrixA[i][j]){
+                    SolutionPureStrategy_A.push([j,i]);
+                }
+            }
+        }
     
+    for(let i = 0; i < SolutionPureStrategy_A.length; i++){
+        for(let j = 0; j < SolutionPureStrategy_B.length; j++){
+            if(SolutionPureStrategy_A[i][0]==SolutionPureStrategy_B[j][0] && SolutionPureStrategy_A[i][1]==SolutionPureStrategy_B[j][1]){
+                SolutionPureStrategy.push(SolutionPureStrategy_A[i]);
+            }
+        }
+    }
+    /*
         let matrixB1=[];
         for(let i = 0; i < N; i++){        
             matrixB1[i]=[]
@@ -76,7 +113,7 @@ let Solve_Bimatrix_Game = () => {
                 SolutionPureStrategy.push(SolutionPureStrategy_A[i]);
             }
         }
-    }
+    }*/
     if(SolutionPureStrategy.length != 0){
         document.querySelector('#result').innerHTML = '';
         document.querySelector('#result').innerHTML = 'Ситуации равновесия в чистых стратегиях: ';
@@ -112,8 +149,9 @@ let Solve_Bimatrix_Game = () => {
                                         [A[j][k1], A[j][k]]]);
                     SubMatrixesB.push([[B[i][k1], B[i][k]],
                                         [B[j][k1], B[j][k]]]);
-                    indexSubMatrixesA.push([[k1],[k]]);
-                    indexSubMatrixesB.push([[i],[j]]);
+                    indexSubMatrixesA.push([[+k1],[+k]]);
+                    indexSubMatrixesB.push([[+i],[+j]]);
+                    
                                         
                 }
             }
@@ -138,9 +176,9 @@ let Solve_Bimatrix_Game = () => {
                                                     [A[i3][j1], A[i3][j2], A[i3][j3]]]);
                                 SubMatrixesB.push([[B[i1][j1], B[i1][j2], B[i1][j3]],
                                                     [B[i2][j1], B[i2][j2], B[i2][j3]],
-                                                    [B[i3][j1], B[i3][j2], B[i3][j3]]]);
-                                indexSubMatrixesA.push([[j1],[j2],[j3]]);
-                                indexSubMatrixesB.push([[i1],[i2],[i3]]);
+                                                    [B[i3][j1], B[i3][j2], B[i3][j3]]]);                                                    
+                                indexSubMatrixesA.push([[+j1],[+j2],[+j3]]);
+                                indexSubMatrixesB.push([[+i1],[+i2],[+i3]]);
                             }
                         }
                     }
@@ -174,9 +212,9 @@ let Solve_Bimatrix_Game = () => {
                                         SubMatrixesB.push([[B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4]],
                                                         [B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4]],
                                                         [B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4] ],
-                                                        [B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4]]]);
-                                        indexSubMatrixesA.push([[j1],[j2],[j3],[j4]]);
-                                        indexSubMatrixesB.push([[i1],[i2],[i3],[i4]]);
+                                                        [B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4]]]);                                                        
+                                        indexSubMatrixesA.push([[+j1],[+j2],[+j3],[+j4]]);
+                                        indexSubMatrixesB.push([[+i1],[+i2],[+i3],[+i4]]);
                                     }
                                 }
                             }
@@ -213,6 +251,7 @@ let Solve_Bimatrix_Game = () => {
         vector1[SubMatrixesA[k].length] = 1;
         //Составляем и решаем СЛАУ с матрией B
         //Преобразовывсаем матрицу
+        //
         SubMatrixesB[k] = math.transpose(SubMatrixesB[k]);
         const LastSubMatrixB = []
         for(let i = 0; i < SubMatrixesB[k].length + 1; i++){
@@ -244,6 +283,7 @@ let Solve_Bimatrix_Game = () => {
             predLastIndexSubMatrixesB.push(indexSubMatrixesB[k]);
         }
     }
+
     //Проверка на неотрицальность p и q, при этом на v1,v2 внимания не обращаем
     for( let i = 0; i < SLAU_Solution_A.length; i++){
         let positiveA = true;
@@ -259,7 +299,7 @@ let Solve_Bimatrix_Game = () => {
             lastIndexSubMatrixesB.push(predLastIndexSubMatrixesB[i]);
         }
     }
-    document.querySelector('#result').innerHTML = '';
+    /*document.querySelector('#result').innerHTML = '';
     document.querySelector('#result').innerHTML = 'Решение биматричной игры в смешанных стратегиях. <br >Далее будут выведены векторы p и q и их индексы, оставшиеся места заполнить нулями <br>';
     for(let i = 0; i < Solution_Bimatix_Game_A.length; i++){
         //Вывод p
@@ -293,7 +333,97 @@ let Solve_Bimatrix_Game = () => {
 	    }
         document.querySelector('#result').innerHTML += (Number(lastIndexSubMatrixesB[i][lastIndexSubMatrixesB[i].length-1])+1) + ')';
         document.querySelector('#result').innerHTML +='<br>';
+    }*/
+    
+    let almostSolutionP=[];
+    let almostSolutionQ=[];
+    //p и столбцы
+    for(let i = 0; i < lastIndexSubMatrixesA.length; i++){
+        let k=0;
+        almostSolutionP[i]=[];
+        let p = Array.from(Solution_Bimatix_Game_A[i]);
+        for(let j = 0; j < N; j++){
+            if(j==lastIndexSubMatrixesA[i][k]){
+                almostSolutionP[i].push(+p[k]);
+                k++;
+            }
+            else{
+                almostSolutionP[i].push(Number(0));
+            }
+        }
     }
+    //q и строки
+    for(let i = 0; i < lastIndexSubMatrixesB.length; i++){
+        let k=0;
+        almostSolutionQ[i]=[];
+        let q = Array.from(Solution_Bimatix_Game_B[i]);
+        for(let j = 0; j < M; j++){
+            if(j==lastIndexSubMatrixesB[i][k]){
+                almostSolutionQ[i].push(+q[k]);
+                k++;
+            }
+            else{
+                almostSolutionQ[i].push(Number(0));
+            }
+        }
+    }
+    //проверка на ситуацию равновесия
+    let solutionP=[];
+    let solutionQ=[];
+    let k = 0;
+    for(let i = 0; i < almostSolutionP.length; i++){
+        let pA = math.multiply(almostSolutionQ[i], A);
+        let pAq = math.multiply(pA, almostSolutionP[i]);        
+        let pB = math.multiply(almostSolutionQ[i], B);
+        let pBq = math.multiply(pB, almostSolutionP[i]);
+        let checkAq = math.multiply(A, almostSolutionP[i]);
+        let checkpB = math.multiply(almostSolutionQ[i], B);
+        let check1 = true;
+        let check2 = true;        
+        console.log('Решение СЛАУ А=', almostSolutionQ[i]);
+        console.log('Решение СЛАУ B=', almostSolutionP[i]);
+        console.log('va=',pAq);
+        console.log('vb=',pBq);
+        console.log('Aq=',checkAq);
+        console.log('pB=',checkpB);
+        console.log('-----------------------');
+        for(let j = 0; j<checkAq.length;j++){
+            if(+(checkAq[j].toFixed(2)) > +(pAq.toFixed(2))){
+                check1 = false;
+            }
+        }
+        for(let j = 0; j<checkpB.length;j++){
+            if(+(checkpB[j].toFixed(2)) > (+pBq.toFixed(2))){
+                check2 = false;
+            }
+        }        
+        if(check1 === true && check2 === true){
+            solutionP.push(almostSolutionP[i]);
+            solutionQ.push(almostSolutionQ[i]);
+        }
+    }
+    console.log(solutionP);
+    console.log(solutionQ);
+
+    document.querySelector('#result').innerHTML = '';
+    document.querySelector('#result').innerHTML = 'Решение биматричной игры в смешанных стратегиях. <br >';
+    for(let i = 0; i < solutionQ.length; i++){
+        //Вывод p
+        document.querySelector('#result').innerHTML += 'q = (';
+	    for(let j = 0; j < solutionP[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+solutionP[i][j]).toFixed(2) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += Number(solutionP[i][solutionP[i].length-1]).toFixed(2) + '), ';
+        //Вывод q
+        document.querySelector('#result').innerHTML += 'p = (';
+	    for(let j = 0; j < solutionQ[i].length-1; j++)
+	    {
+	    	document.querySelector('#result').innerHTML += ((+solutionQ[i][j]).toFixed(2) + ', ');
+	    }
+        document.querySelector('#result').innerHTML += Number(solutionQ[i][solutionQ[i].length-1]).toFixed(2) + ') <br> ';
+    }
+    
 }
     
 }
