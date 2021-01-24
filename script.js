@@ -76,44 +76,6 @@ let Solve_Bimatrix_Game = () => {
             }
         }
     }
-    /*
-        let matrixB1=[];
-        for(let i = 0; i < N; i++){        
-            matrixB1[i]=[]
-            for(let j = 0; j < M; j++){            
-                matrixB1[i][j] = matrixB[i][j];
-            }
-        }
-        for(let i = 0; i < M; i++){
-            let masA = A1[i].sort(function(a, b) {
-               return a - b;
-            });;
-            let maxA = masA[masA.length-1];
-            for(let j = 0; j < N; j++){
-                if(maxA === A[i][j]){
-                    SolutionPureStrategy_A.push([i,j]);
-                }
-            }
-        }
-        for(let i = 0; i < N; i++){
-            let masB = matrixB1[i].sort(function(a, b) {
-                return a - b;
-              });;
-              let maxB = masB[masB.length-1];
-              for(let j = 0; j < M; j++){                
-                if(maxB === matrixB[i][j]){
-                    SolutionPureStrategy_B.push([j,i]);
-                }
-            }
-        }
-    
-    for(let i = 0; i < SolutionPureStrategy_A.length; i++){
-        for(let j = 0; j < SolutionPureStrategy_B.length; j++){
-            if(SolutionPureStrategy_A[i][0]==SolutionPureStrategy_B[j][0] && SolutionPureStrategy_A[i][1]==SolutionPureStrategy_B[j][1]){
-                SolutionPureStrategy.push(SolutionPureStrategy_A[i]);
-            }
-        }
-    }*/
     if(SolutionPureStrategy.length != 0){
         document.querySelector('#result').innerHTML = '';
         document.querySelector('#result').innerHTML = 'Ситуации равновесия в чистых стратегиях: ';
@@ -130,7 +92,7 @@ let Solve_Bimatrix_Game = () => {
     }
     else{
     //алгоритм поиска в смешанных стратегиях
-    if(N==5 && M==5){
+    if(N==10 && M==10){
         SubMatrixesA.push(A);
         SubMatrixesB.push(B);
         indexSubMatrixesA.push([[0],[1],[2],[3],[4]]);
@@ -224,6 +186,331 @@ let Solve_Bimatrix_Game = () => {
             }
         }
     }
+    if(N >= 5 && M >= 5){
+        // Сам алгоритм 5*5
+        for (let i0 = 0; i0 < M - 4; i0++) // строки
+            {
+                for (let i1 = i0 + 1; i1 < M - 3; i1++) // строки
+                {
+                    for (let i2 = i1 + 1; i2 < M - 2; i2++) // строки
+                    {
+                        for (let i3 = i2 + 1; i3 < M - 1; i3++) // строки
+                        {
+                            for (let i4 = i3 + 1; i4 < M; i4++) // строки
+                            {
+                                for (let j0 = 0; j0 < N - 4; j0++) //столбцы
+                                {
+                                    for (let j1 = j0 + 1; j1 < N - 3; j1++) //столбцы
+                                    {
+                                        for (let j2 = j1 + 1; j2 < N - 2; j2++) // столбцы
+                                        {
+                                            for (let j3 = j2 + 1; j3 < N - 1; j3++) // столбцы
+                                            {
+                                                for (let j4 = j3 + 1; j4 < N; j4++) // столбцы
+                                                {
+                                                    SubMatrixesA.push([
+                                                                    [A[i0][j0], A[i0][j1], A[i0][j2], A[i0][j3], A[i0][j4]],
+                                                                    [A[i1][j0], A[i1][j1], A[i1][j2], A[i1][j3], A[i1][j4]],
+                                                                    [A[i2][j0], A[i2][j1], A[i2][j2], A[i2][j3], A[i2][j4]],
+                                                                    [A[i3][j0], A[i3][j1], A[i3][j2], A[i3][j3], A[i3][j4]],
+                                                                    [A[i4][j0], A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4]],
+                                                                ]);
+                                                    SubMatrixesB.push([
+                                                                    [B[i0][j0], B[i0][j1], B[i0][j2], B[i0][j3], B[i0][j4]],
+                                                                    [B[i1][j0], B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4]],
+                                                                    [B[i2][j0], B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4]],
+                                                                    [B[i3][j0], B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4]],
+                                                                    [B[i4][j0], B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4]],
+                                                                ]);                                                        
+                                                    indexSubMatrixesA.push([[+i0],[+j1],[+j2],[+j3],[+j4]]);
+                                                    indexSubMatrixesB.push([[+j0],[+i1],[+i2],[+i3],[+i4]]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(N >= 6 && M >= 6){
+            // Сам алгоритм 6*6
+            for (let i0 = 0; i0 < M - 5; i0++) // строки
+                {
+                    for (let i1 = i0 + 1; i1 < M - 4; i1++) // строки
+                    {
+                        for (let i2 = i1 + 1; i2 < M - 3; i2++) // строки
+                        {
+                            for (let i3 = i2 + 1; i3 < M - 2; i3++) // строки
+                            {
+                                for (let i4 = i3 + 1; i4 - 1 < M; i4++) // строки
+                                {
+                                    for (let i5 = i4 + 1; i5 < M; i5++) // строки
+                                    {
+                                        for (let j0 = 0; j0 < N - 5; j0++) //столбцы
+                                        {
+                                            for (let j1 = j0 + 1; j1 < N - 4; j1++) //столбцы
+                                            {
+                                                for (let j2 = j1 + 1; j2 < N - 3; j2++) // столбцы
+                                                {
+                                                    for (let j3 = j2 + 1; j3 < N - 2; j3++) // столбцы
+                                                    {
+                                                        for (let j4 = j3 + 1; j4 < N - 1; j4++) // столбцы
+                                                        {
+                                                            for (let j5 = j4 + 1; j5 < N; j5++) //столбцы
+                                                            {
+                                                            SubMatrixesA.push([
+                                                                            [A[i0][j0], A[i0][j1], A[i0][j2], A[i0][j3], A[i0][j4], A[i0][j5]],
+                                                                            [A[i1][j0], A[i1][j1], A[i1][j2], A[i1][j3], A[i1][j4], A[i1][j5]],
+                                                                            [A[i2][j0], A[i2][j1], A[i2][j2], A[i2][j3], A[i2][j4], A[i2][j5]],
+                                                                            [A[i3][j0], A[i3][j1], A[i3][j2], A[i3][j3], A[i3][j4], A[i3][j5]],                                                                            
+                                                                            [A[i4][j0], A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4], A[i4][j5]],
+                                                                            [A[i5][j0], A[i5][j1], A[i5][j2], A[i5][j3], A[i5][j4], A[i5][j5]],
+                                                                        ]);
+                                                            SubMatrixesB.push([
+                                                                            [B[i0][j0], B[i0][j1], B[i0][j2], B[i0][j3], B[i0][j4], B[i0][j5]],
+                                                                            [B[i1][j0], B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4], B[i1][j5]],
+                                                                            [B[i2][j0], B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4], B[i2][j5]],
+                                                                            [B[i3][j0], B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4], B[i3][j5]],                                                                            
+                                                                            [B[i4][j0], B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4], B[i4][j5]],
+                                                                            [B[i5][j0], B[i5][j1], B[i5][j2], B[i5][j3], B[i5][j4], B[i5][j5]],
+                                                                        ]);                                                        
+                                                            indexSubMatrixesA.push([[+i0],[+j1],[+j2],[+j3],[+j4],[+i5]]);
+                                                            indexSubMatrixesB.push([[+j0],[+i1],[+i2],[+i3],[+i4],[+j5]]);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(N >= 7 && M >= 7){
+                // Сам алгоритм 7*7
+                for (let i0 = 0; i0 < M - 6; i0++) // строки
+                {
+                    for (let i1 = i0 + 1; i1 < M - 5; i1++) // строки
+                    {
+                        for (let i2 = i1 + 1; i2 < M - 4; i2++) // строки
+                        {
+                            for (let i3 = i2 + 1; i3 < M - 3; i3++) // строки
+                            {
+                                for (let i4 = i3 + 1; i4 - 2 < M; i4++) // строки
+                                {
+                                    for (let i5 = i4 + 1; i5 - 1 < M; i5++) // строки
+                                    {
+                                        for (let i6 = i5 + 1; i6 < M; i6++) // строки
+                                        {
+                                            for (let j0 = 0; j0 < N - 6; j0++) //столбцы
+                                            {
+                                                for (let j1 = j0 + 1; j1 < N - 5; j1++) //столбцы
+                                                {
+                                                    for (let j2 = j1 + 1; j2 < N - 4; j2++) // столбцы
+                                                    {
+                                                        for (let j3 = j2 + 1; j3 < N - 3; j3++) // столбцы
+                                                        {
+                                                            for (let j4 = j3 + 1; j4 < N - 2; j4++) // столбцы
+                                                            {
+                                                                for (let j5 = j4 + 1; j5 < N - 1; j5++) //столбцы
+                                                                {
+                                                                    for (let j6 = j5 + 1; j6 < N; j6++) //столбцы
+                                                                    {
+                                                                        SubMatrixesA.push([
+                                                                                        [A[i0][j0], A[i0][j1], A[i0][j2], A[i0][j3], A[i0][j4], A[i0][j5], A[i0][j6]],
+                                                                                        [A[i1][j0], A[i1][j1], A[i1][j2], A[i1][j3], A[i1][j4], A[i1][j5], A[i1][j6]],
+                                                                                        [A[i2][j0], A[i2][j1], A[i2][j2], A[i2][j3], A[i2][j4], A[i2][j5], A[i2][j6]],
+                                                                                        [A[i3][j0], A[i3][j1], A[i3][j2], A[i3][j3], A[i3][j4], A[i3][j5], A[i3][j6]],                                                                            
+                                                                                        [A[i4][j0], A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4], A[i4][j5], A[i4][j6]],
+                                                                                        [A[i5][j0], A[i5][j1], A[i5][j2], A[i5][j3], A[i5][j4], A[i5][j5], A[i5][j6]],
+                                                                                        [A[i6][j0], A[i6][j1], A[i6][j2], A[i6][j3], A[i6][j4], A[i6][j5], A[i6][j6]],
+                                                                                    ]);
+                                                                        SubMatrixesB.push([
+                                                                                        [B[i0][j0], B[i0][j1], B[i0][j2], B[i0][j3], B[i0][j4], B[i0][j5], B[i0][j6]],
+                                                                                        [B[i1][j0], B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4], B[i1][j5], B[i1][j6]],
+                                                                                        [B[i2][j0], B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4], B[i2][j5], B[i2][j6]],
+                                                                                        [B[i3][j0], B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4], B[i3][j5], B[i3][j6]],                                                                            
+                                                                                        [B[i4][j0], B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4], B[i4][j5], B[i4][j6]],
+                                                                                        [B[i5][j0], B[i5][j1], B[i5][j2], B[i5][j3], B[i5][j4], B[i5][j5], B[i5][j6]],
+                                                                                        [B[i6][j0], B[i6][j1], B[i6][j2], B[i6][j3], B[i6][j4], B[i6][j5], B[i6][j6]],
+                                                                                    ]);                                                        
+                                                                        indexSubMatrixesA.push([[+i0],[+j1],[+j2],[+j3],[+j4],[+i5],[+i6]]);
+                                                                        indexSubMatrixesB.push([[+j0],[+i1],[+i2],[+i3],[+i4],[+j5],[+j6]]);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(N >= 8 && M >= 8){
+                // Сам алгоритм 8*8
+                for (let i0 = 0; i0 < M - 7; i0++) // строки
+                {
+                    for (let i1 = i0 + 1; i1 < M - 6; i1++) // строки
+                    {
+                        for (let i2 = i1 + 1; i2 < M - 5; i2++) // строки
+                        {
+                            for (let i3 = i2 + 1; i3 < M - 4; i3++) // строки
+                            {
+                                for (let i4 = i3 + 1; i4 - 3 < M; i4++) // строки
+                                {
+                                    for (let i5 = i4 + 1; i5 - 2 < M; i5++) // строки
+                                    {
+                                        for (let i6 = i5 + 1; i6 < M - 1; i6++) // строки
+                                        {
+                                            for (let i7 = i6 + 1; i7 < M; i7++) // строки
+                                            {
+                                                for (let j0 = 0; j0 < N - 7; j0++) //столбцы
+                                                {
+                                                    for (let j1 = j0 + 1; j1 < N - 6; j1++) //столбцы
+                                                    {
+                                                        for (let j2 = j1 + 1; j2 < N - 5; j2++) // столбцы
+                                                        {
+                                                            for (let j3 = j2 + 1; j3 < N - 4; j3++) // столбцы
+                                                            {
+                                                                for (let j4 = j3 + 1; j4 < N - 3; j4++) // столбцы
+                                                                {
+                                                                    for (let j5 = j4 + 1; j5 < N - 2; j5++) //столбцы
+                                                                    {
+                                                                        for (let j6 = j5 + 1; j6 < N - 1; j6++) //столбцы
+                                                                        {
+                                                                            for (let j7 = j6 + 1; j7 < N; j7++) //столбцы
+                                                                            {
+                                                                                SubMatrixesA.push([
+                                                                                                [A[i0][j0], A[i0][j1], A[i0][j2], A[i0][j3], A[i0][j4], A[i0][j5], A[i0][j6], A[i0][j7]],
+                                                                                                [A[i1][j0], A[i1][j1], A[i1][j2], A[i1][j3], A[i1][j4], A[i1][j5], A[i1][j6], A[i1][j7]],
+                                                                                                [A[i2][j0], A[i2][j1], A[i2][j2], A[i2][j3], A[i2][j4], A[i2][j5], A[i2][j6], A[i2][j7]],
+                                                                                                [A[i3][j0], A[i3][j1], A[i3][j2], A[i3][j3], A[i3][j4], A[i3][j5], A[i3][j6], A[i3][j7]],                                                                            
+                                                                                                [A[i4][j0], A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4], A[i4][j5], A[i4][j6], A[i4][j7]],
+                                                                                                [A[i5][j0], A[i5][j1], A[i5][j2], A[i5][j3], A[i5][j4], A[i5][j5], A[i5][j6], A[i5][j7]],
+                                                                                                [A[i6][j0], A[i6][j1], A[i6][j2], A[i6][j3], A[i6][j4], A[i6][j5], A[i6][j6], A[i6][j7]],
+                                                                                                [A[i7][j0], A[i7][j1], A[i7][j2], A[i7][j3], A[i7][j4], A[i7][j5], A[i7][j6], A[i7][j7]],
+                                                                                            ]);
+                                                                                SubMatrixesB.push([
+                                                                                                [B[i0][j0], B[i0][j1], B[i0][j2], B[i0][j3], B[i0][j4], B[i0][j5], B[i0][j6], B[i0][j7]],
+                                                                                                [B[i1][j0], B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4], B[i1][j5], B[i1][j6], B[i1][j7]],
+                                                                                                [B[i2][j0], B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4], B[i2][j5], B[i2][j6], B[i2][j7]],
+                                                                                                [B[i3][j0], B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4], B[i3][j5], B[i3][j6], B[i3][j7]],                                                                            
+                                                                                                [B[i4][j0], B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4], B[i4][j5], B[i4][j6], B[i4][j7]],
+                                                                                                [B[i5][j0], B[i5][j1], B[i5][j2], B[i5][j3], B[i5][j4], B[i5][j5], B[i5][j6], B[i5][j7]],
+                                                                                                [B[i6][j0], B[i6][j1], B[i6][j2], B[i6][j3], B[i6][j4], B[i6][j5], B[i6][j6], B[i6][j7]],
+                                                                                                [B[i7][j0], B[i7][j1], B[i7][j2], B[i7][j3], B[i7][j4], B[i7][j5], B[i7][j6], B[i7][j7]],
+                                                                                            ]);                                                        
+                                                                                indexSubMatrixesA.push([[+i0],[+j1],[+j2],[+j3],[+j4],[+i5],[+i6],[+i7]]);
+                                                                                indexSubMatrixesB.push([[+j0],[+i1],[+i2],[+i3],[+i4],[+j5],[+j6],[+j7]]);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(N >= 9 && M >= 9){
+                // Сам алгоритм 9*9
+                for (let i0 = 0; i0 < M - 8; i0++) // строки
+                {
+                    for (let i1 = i0 + 1; i1 < M - 7; i1++) // строки
+                    {
+                        for (let i2 = i1 + 1; i2 < M - 6; i2++) // строки
+                        {
+                            for (let i3 = i2 + 1; i3 < M - 5; i3++) // строки
+                            {
+                                for (let i4 = i3 + 1; i4 - 4 < M; i4++) // строки
+                                {
+                                    for (let i5 = i4 + 1; i5 - 3 < M; i5++) // строки
+                                    {
+                                        for (let i6 = i5 + 1; i6 < M - 2; i6++) // строки
+                                        {
+                                            for (let i7 = i6 + 1; i7 < M - 1; i7++) // строки
+                                            {
+                                                for (let i8 = i7 + 1; i8 < M; i8++) // строки
+                                                {
+                                                    for (let j0 = 0; j0 < N - 8; j0++) //столбцы
+                                                    {
+                                                        for (let j1 = j0 + 1; j1 < N - 7; j1++) //столбцы
+                                                        {
+                                                            for (let j2 = j1 + 1; j2 < N - 6; j2++) // столбцы
+                                                            {
+                                                                for (let j3 = j2 + 1; j3 < N - 5; j3++) // столбцы
+                                                                {
+                                                                    for (let j4 = j3 + 1; j4 < N - 4; j4++) // столбцы
+                                                                    {
+                                                                        for (let j5 = j4 + 1; j5 < N - 3; j5++) //столбцы
+                                                                        {
+                                                                            for (let j6 = j5 + 1; j6 < N - 2; j6++) //столбцы
+                                                                            {
+                                                                                for (let j7 = j6 + 1; j7 < N - 1; j7++) //столбцы
+                                                                                {
+                                                                                    for (let j8 = j7 + 1; j8 < N; j8++) //столбцы
+                                                                                    {
+                                                                                        SubMatrixesA.push([
+                                                                                                        [A[i0][j0], A[i0][j1], A[i0][j2], A[i0][j3], A[i0][j4], A[i0][j5], A[i0][j6], A[i0][j7], A[i0][j8]],
+                                                                                                        [A[i1][j0], A[i1][j1], A[i1][j2], A[i1][j3], A[i1][j4], A[i1][j5], A[i1][j6], A[i1][j7], A[i1][j8]],
+                                                                                                        [A[i2][j0], A[i2][j1], A[i2][j2], A[i2][j3], A[i2][j4], A[i2][j5], A[i2][j6], A[i2][j7], A[i2][j8]],
+                                                                                                        [A[i3][j0], A[i3][j1], A[i3][j2], A[i3][j3], A[i3][j4], A[i3][j5], A[i3][j6], A[i3][j7], A[i3][j8]],                                                                            
+                                                                                                        [A[i4][j0], A[i4][j1], A[i4][j2], A[i4][j3], A[i4][j4], A[i4][j5], A[i4][j6], A[i4][j7], A[i4][j8]],
+                                                                                                        [A[i5][j0], A[i5][j1], A[i5][j2], A[i5][j3], A[i5][j4], A[i5][j5], A[i5][j6], A[i5][j7], A[i5][j8]],
+                                                                                                        [A[i6][j0], A[i6][j1], A[i6][j2], A[i6][j3], A[i6][j4], A[i6][j5], A[i6][j6], A[i6][j7], A[i6][j8]],
+                                                                                                        [A[i7][j0], A[i7][j1], A[i7][j2], A[i7][j3], A[i7][j4], A[i7][j5], A[i7][j6], A[i7][j7], A[i7][j8]],
+                                                                                                        [A[i8][j0], A[i8][j1], A[i8][j2], A[i8][j3], A[i8][j4], A[i8][j5], A[i8][j6], A[i8][j7], A[i8][j8]],
+                                                                                                    ]);
+                                                                                        SubMatrixesB.push([
+                                                                                                        [B[i0][j0], B[i0][j1], B[i0][j2], B[i0][j3], B[i0][j4], B[i0][j5], B[i0][j6], B[i0][j7], B[i0][j8]],
+                                                                                                        [B[i1][j0], B[i1][j1], B[i1][j2], B[i1][j3], B[i1][j4], B[i1][j5], B[i1][j6], B[i1][j7], B[i1][j8]],
+                                                                                                        [B[i2][j0], B[i2][j1], B[i2][j2], B[i2][j3], B[i2][j4], B[i2][j5], B[i2][j6], B[i2][j7], B[i2][j8]],
+                                                                                                        [B[i3][j0], B[i3][j1], B[i3][j2], B[i3][j3], B[i3][j4], B[i3][j5], B[i3][j6], B[i3][j7], B[i3][j8]],                                                                            
+                                                                                                        [B[i4][j0], B[i4][j1], B[i4][j2], B[i4][j3], B[i4][j4], B[i4][j5], B[i4][j6], B[i4][j7], B[i4][j8]],
+                                                                                                        [B[i5][j0], B[i5][j1], B[i5][j2], B[i5][j3], B[i5][j4], B[i5][j5], B[i5][j6], B[i5][j7], B[i5][j8]],
+                                                                                                        [B[i6][j0], B[i6][j1], B[i6][j2], B[i6][j3], B[i6][j4], B[i6][j5], B[i6][j6], B[i6][j7], B[i6][j8]],
+                                                                                                        [B[i7][j0], B[i7][j1], B[i7][j2], B[i7][j3], B[i7][j4], B[i7][j5], B[i7][j6], B[i7][j7], B[i7][j8]],
+                                                                                                        [B[i8][j0], B[i8][j1], B[i8][j2], B[i8][j3], B[i8][j4], B[i8][j5], B[i8][j6], B[i8][j7], B[i8][j8]],
+                                                                                                    ]);                                                        
+                                                                                        indexSubMatrixesA.push([[+i0],[+j1],[+j2],[+j3],[+j4],[+i5],[+i6],[+i7],[+i8]]);
+                                                                                        indexSubMatrixesB.push([[+j0],[+i1],[+i2],[+i3],[+i4],[+j5],[+j6],[+j7],[+j8]]);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
     for(let k = 0; k < SubMatrixesA.length; k++){
         //Составляем и решаем СЛАУ с матрией А
         //Преобразовывсаем матрицу
@@ -298,43 +585,7 @@ let Solve_Bimatrix_Game = () => {
             lastIndexSubMatrixesA.push(predLastIndexSubMatrixesA[i]);
             lastIndexSubMatrixesB.push(predLastIndexSubMatrixesB[i]);
         }
-    }
-    /*document.querySelector('#result').innerHTML = '';
-    document.querySelector('#result').innerHTML = 'Решение биматричной игры в смешанных стратегиях. <br >Далее будут выведены векторы p и q и их индексы, оставшиеся места заполнить нулями <br>';
-    for(let i = 0; i < Solution_Bimatix_Game_A.length; i++){
-        //Вывод p
-        let p = Array.from(Solution_Bimatix_Game_A[i]);
-        document.querySelector('#result').innerHTML += 'p = (';
-	    for(let j = 0; j < Solution_Bimatix_Game_A[i].length-2; j++)
-	    {
-	    	document.querySelector('#result').innerHTML += ((+p[j]).toFixed(2) + ', ');
-	    }
-        document.querySelector('#result').innerHTML += Number(p[p.length-2]).toFixed(2) + '), ';
-        //Вывод индексов
-        document.querySelector('#result').innerHTML += 'i = (';
-	    for(let j = 0; j < lastIndexSubMatrixesA[i].length-1; j++)
-	    {
-	    	document.querySelector('#result').innerHTML += ((+lastIndexSubMatrixesA[i][j]+1) + ', ');
-	    }
-        document.querySelector('#result').innerHTML += (Number(lastIndexSubMatrixesA[i][lastIndexSubMatrixesA[i].length-1])+1) + '), ';      
-        //Вывод q
-        let q = Array.from(Solution_Bimatix_Game_B[i])
-        document.querySelector('#result').innerHTML += 'q = (';
-	    for(let j = 0; j < Solution_Bimatix_Game_B[i].length-2; j++)
-	    {
-	    	document.querySelector('#result').innerHTML += ((+q[j]).toFixed(2) + ', ');
-	    }
-        document.querySelector('#result').innerHTML += Number(q[q.length-2]).toFixed(2) + '), ';
-        //Вывод индексов
-        document.querySelector('#result').innerHTML += 'j = (';
-	    for(let j = 0; j < lastIndexSubMatrixesB[i].length-1; j++)
-	    {
-	    	document.querySelector('#result').innerHTML += ((+lastIndexSubMatrixesB[i][j]+1) + ', ');
-	    }
-        document.querySelector('#result').innerHTML += (Number(lastIndexSubMatrixesB[i][lastIndexSubMatrixesB[i].length-1])+1) + ')';
-        document.querySelector('#result').innerHTML +='<br>';
-    }*/
-    
+    }    
     let almostSolutionP=[];
     let almostSolutionQ=[];
     //p и столбцы
